@@ -107,4 +107,50 @@ assign → ID "=" exp
 ```
 
 # 2.Exemplos de Código.
+A seguir alguns exemplos da linguagem Nim: 
 
+```
+proc soma(a: int, b: int): int
+    return a + b;
+
+var resultado: int;
+resultado = soma(5, 10);
+echo resultado;
+```
+
+```
+proc gerarNumero(): int
+    return 42;
+
+var numero: int;
+numero = gerarNumero();
+echo "O número gerado é: ", numero;
+```
+
+```
+import math, strutils;
+
+proc calcularQuadrado(n: int): int
+    return n ^ 2;
+
+var numeros: array[5, int];
+var i: int;
+
+for i = 0 : 
+    INDENT
+    numeros[i] = i * 2;
+DEDENT
+
+var somaTotal: int = 0;
+i = 0;
+while i < 5 :
+    INDENT
+    if numeros[i] mod 2 == 0 :
+        INDENT
+        somaTotal = somaTotal + calcularQuadrado(numeros[i]);
+    DEDENT
+    i = i + 1;
+DEDENT
+
+echo "Soma dos quadrados dos números pares: ", somaTotal;
+```
