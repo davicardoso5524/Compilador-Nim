@@ -65,7 +65,11 @@ stm -> exp;
 A linguagem NIM dá suporte a expressões aritméticas com soma (`+`), subtração (`-`), multiplicação (`*`), divisão (`/`), módulo (`mod`) e exponenciação (`^`).
 
 Além disso, NIM permite:
-Atribuição de valores a variáveis (assign), Chamadas de função (call), Números literais (INTNUMBER, FLOATNUMBER, HEX_INTNUMBER, BIN_INTNUMBER, OCT_INTNUMBER), Strings e caracteres (STRING, CHAR), Variáveis (ID).
+Atribuição de valores a variáveis (`assign`) 
+Chamadas de função (`call`)
+Números literais (`INTNUMBER, FLOATNUMBER, HEX_INTNUMBER, BIN_INTNUMBER, OCT_INTNUMBER`)
+Strings e caracteres (`STRING, CHAR`)
+Variáveis (`ID`).
 
 ```
 exp → exp "+" exp
@@ -88,8 +92,19 @@ exp → exp "+" exp
 
 ### 1.2.1 Chamadas de Função e Atribuição 
 
+A linguagem NIM dá suporte a chamadas de função com ou sem parâmetros. Um parâmetro de função pode ser qualquer expressão da linguagem. Além disso, NIM permite atribuir valores a variáveis usando o operador `=`.
 
+A sintaxe dessas construções pode ser representada pelas seguintes regras:
 
+```
+call → ID "(" params ")" 
+       | ID "(" ")"
+
+params → exp "," params
+         | exp
+
+assign → ID "=" exp
+```
 
 # 2.Exemplos de Código.
 
