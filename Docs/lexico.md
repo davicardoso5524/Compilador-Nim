@@ -7,7 +7,7 @@ Nim é uma linguagem de programação estática, imperativa e orientada a objeto
 #### 1. Palavras reservadas.
 
 Nim apresenta apenas as seguintes palavras reservas: 
-**if**, **else**, **while**, **for**, **proc**, **var**, **type**, **return** e **import**
+**echo**, **if**, **elif**, **else**, **while**, **for**, **proc**, **var**, **type**, **return** e **import**
 
 **Regras:**  
 - Palavras reservadas são palavras especiais da linguagem que não podem ser usadas diretamente como nomes de variáveis, funções ou outros identificadores.  
@@ -28,9 +28,10 @@ Nim apresenta os operadores aritméticos de **soma (+)**, **subtração (-)**, *
 |   Grau de Precedência  |      Operador      |      Associatividade      |
 |:----------------------:|:------------------:|:-------------------------:|
 |          1             |     =, +=, -=      |   Direita para Esquerda   |
-|          2             |        +, -        |   Esquerda para Direita   |
-|          3             |      *, /, mod     |   Esquerda para Direita   |
-|          4             |         ^          |   Direita para Esquerda   |
+|          2             |    <, >, <=, >=    |   Esquerda para Direita   |
+|          3             |        +, -        |   Esquerda para Direita   |
+|          4             |      *, /, mod     |   Esquerda para Direita   |
+|          5             |         ^          |   Direita para Esquerda   |
 
 ---
 
@@ -143,5 +144,6 @@ Comentários de múltiplas linhas usam **#[ ... ]#**.
 #### 8. Erros
 Qualquer sequência de caracteres que não se enquadre nas regras acima é considerada um erro léxico.
 Nim também acusa erro ao encontrar identificadores inválidos, números malformados ou uso incorreto de palavras reservadas. 
+
 
 Espaços em branco, tabulações e quebras de linha são geralmente ignorados, exceto quando usados para definir blocos de código (indentação é significativa, como em Python).
