@@ -35,12 +35,66 @@ Nim apresenta os operadores aritméticos de **soma (+)**, **subtração (-)**, *
 
 ---
 
-#### 3. Delimitadores
+#### 3. Condicionais 
+
+
+Em Nim, as condicionais servem para tomar decisões no programa, ou seja, executar determinados blocos de código dependendo de uma condição booleana (verdadeiro/falso)
+
+- `IF`: 
+É a estrutura básica de decisão. Executa um bloco de código se a condição for verdadeira.
+
+```
+let x = 10
+
+if x > 5:
+  echo "x é maior que 5"
+```
+
+- `ELSE`: 
+Executa um bloco de código quando todas as condições anteriores falharam.
+
+```
+let x = 1
+
+if x > 5:
+  echo "x é maior que 5"
+elif x == 3:
+  echo "x é igual a 3"
+else:
+  echo "x é menor ou diferente de 3 e 5"
+```
+
+- `ELIF`: 
+Serve para testar outra condição se a primeira (`if`) for falsa. Você pode ter quantos elif quiser.
+
+```
+let x = 3
+
+if x > 5:
+  echo "x é maior que 5"
+elif x == 3:
+  echo "x é igual a 3"
+```
+
+---
+
+#### 4. Loops de repetição
+Em Nim, existem dois tipos principais de loops de repetição: `while` e `for`.
+
+- `WHILE`: 
+Repete um bloco de código enquanto a condição for verdadeira. É ideal quando você não sabe exatamente quantas vezes o loop vai rodar.
+
+- `WHILE`: 
+Repete um bloco de código para cada elemento de uma sequência (como um range de números ou elementos de uma lista).
+
+---
+
+#### 5. Delimitadores
 Comandos em Nim utilizam **;** pode ser usado para separar comandos na mesma linha, mas é opcional e raramente utilizado devido à indentação significativa. Parâmetros de funções utiliza **,** como delimitador. Adicionalmente, Nim utiliza os delimitadores **( )** para expressões e chamadas de funções. Dois-pontos **:** para indicar blocos de código (como em Python). Colchetes **[ ]** para listas, arrays e índices. Por fim, também é utilizado o delimitador **{ }** para conjuntos (sets).
 
 ---
 
-#### 4. Identificadores
+#### 6. Identificadores
 
 Para identificadores, Nim apresenta regra bastante empregada em diferentes linguagens de programação. Nim aceita como identificador qualquer sequência de **letras**, **dígitos** e **sublinhados**, apresentando as seguintes regras: 
 
@@ -58,7 +112,7 @@ _nome
 soma2
 calcula_media
 ```
-#### 4.1 Palavras-chave como identificadores
+#### 6.1 Palavras-chave como identificadores
 
 Se uma palavra-chave estiver entre acentos graves, ela perderá sua propriedade de palavra-chave e se tornará um identificador comum.
 
@@ -80,7 +134,7 @@ assert `var` + `let` == 50
 
 ---
 
-#### 5. Strings
+#### 7. Strings
 
 Podem ser delimitados por aspas duplas correspondentes e podem conter as seguintes sequências de escape:
 
@@ -107,7 +161,7 @@ let mensagem = """Texto longo com "aspas"
 
 ---
 
-#### 6. Números
+#### 8. Números
  
 Nim suporta os seguintes formatos numéricos:
 
@@ -134,14 +188,14 @@ let octal = 0o755
 ```
 ---
 
-#### 7. Comentários
+#### 9. Comentários
 Comentários de linha única começam com **#**.
 
 Comentários de múltiplas linhas usam **#[ ... ]#**.
 
----
+--- 
 
-#### 8. Erros
+#### 10. Erros
 Qualquer sequência de caracteres que não se enquadre nas regras acima é considerada um erro léxico.
 Nim também acusa erro ao encontrar identificadores inválidos, números malformados ou uso incorreto de palavras reservadas. 
 
