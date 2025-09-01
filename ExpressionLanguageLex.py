@@ -1,5 +1,3 @@
-#ExpressionLanguageLex.py
-
 import ply.lex as lex
 
 reservadas = {
@@ -12,7 +10,8 @@ reservadas = {
     'var': 'VAR', 
     'type': 'TYPE',
     'return': 'RETURN', 
-    'import': 'IMPORT'
+    'import': 'IMPORT',
+    'echo': 'ECHO',    
 }
 
 tokens = [
@@ -20,9 +19,17 @@ tokens = [
     'SOMA', 'SUB', 'MUL', 'DIV', 'MOD', 'EXP',
     'ATRIB', 'ADICIGUAL', 'SUBIGUAL',
     'PV', 'VIRG', 'LPAREN', 'RPAREN',
-    'LCHAV', 'RCHAV', 'LCOLCH', 'RCOLCH', 'DOISPONTOS','EQ'
+    'LCHAV', 'RCHAV', 'LCOLCH', 'RCOLCH', 'DOISPONTOS','EQ',
+    'GT', 'LT', 'GE', 'LE'
 ] + list(reservadas.values())
 
+t_GE         = r'>='
+t_LE         = r'<='
+t_EQ         = r'=='
+t_ADICIGUAL  = r'\+='
+t_SUBIGUAL   = r'-='
+t_GT         = r'>'
+t_LT         = r'<'
 t_SOMA       = r'\+'
 t_SUB        = r'-'
 t_MUL        = r'\*'
@@ -30,8 +37,6 @@ t_DIV        = r'/'
 t_MOD        = r'\bmod\b'
 t_EXP        = r'\^'
 t_ATRIB      = r'='
-t_ADICIGUAL  = r'\+='
-t_SUBIGUAL   = r'-='
 t_PV         = r';'
 t_VIRG       = r','
 t_LPAREN     = r'\('
@@ -41,7 +46,6 @@ t_RCHAV      = r'\}'
 t_LCOLCH     = r'\['
 t_RCOLCH     = r'\]'
 t_DOISPONTOS = r':'
-t_EQ         = r'=='
 
 def t_ID(t):
     r'`?[a-zA-Z][a-zA-Z_0-9]*`?'
@@ -54,8 +58,6 @@ def t_ID(t):
     return t
 
 
-
-# permite "_" como separador dentro dos literais
 underscore_digits = r'(?:[0-9]|_)+'
 
 def _clean_underscores(s):
@@ -110,42 +112,63 @@ def t_comment_line(t):
     pass
 
 indent_pilha = [0]
+
 def t_NEWLINE(t):
     r'\n+'
+    t.lexer.lineno += t.value.count('\n')
+    t.type = 'NEWLINE'
+    t.value = None
+    return t
 
-    t.lexer.lineno += len(t.value)
-
-    cont_linha = t.lexer.lexdata[t.lexer.lexpos:]
-
-    espacos = 0
-
-    for c in cont_linha:
-        if c == ' ':
-            espacos += 1
-        elif c == '\t':
+def lexer_tokens(lexer):
+    buffer = []
+    while True:
+        tok = lexer.token()
+        if not tok:
             break
-        else: 
-            break
+        if tok.type == 'NEWLINE':
+            cont_linha = lexer.lexdata[lexer.lexpos:]
+            espacos = 0
+            for c in cont_linha:
+                if c == ' ':
+                    espacos += 1
+                elif c == '\t':
+                    espacos += 4
+                else:
+                    break
+            lexer.lexpos += espacos
 
-
-    if espacos > indent_pilha[-1]:
-        indent_pilha.append(espacos)
-        t.type = 'INDENT'
-        t.value = espacos
-        return t
-    
-    elif espacos < indent_pilha[-1]:
-        ded = 0
-        while indent_pilha and espacos < indent_pilha[-1]:
-            indent_pilha.pop()
-            ded +=1
-        #if espacos != indent_pilha[-1]
-            #raise IndentationError("Indentação inconsistente")
-        t.type = 'DEDENT'
-        t.value = ded
-        return t 
-    else:
-        pass
+            buffer.append(tok)
+            if espacos > indent_pilha[-1]:
+                indent_pilha.append(espacos)
+                indent_token = lex.LexToken()
+                indent_token.type = 'INDENT'
+                indent_token.value = espacos
+                indent_token.lineno = tok.lineno
+                indent_token.lexpos = lexer.lexpos
+                buffer.append(indent_token)
+            elif espacos < indent_pilha[-1]:
+                while indent_pilha and espacos < indent_pilha[-1]:
+                    indent_pilha.pop()
+                    dedent_token = lex.LexToken()
+                    dedent_token.type = 'DEDENT'
+                    dedent_token.value = espacos
+                    dedent_token.lineno = tok.lineno
+                    dedent_token.lexpos = lexer.lexpos
+                    buffer.append(dedent_token)
+            for t in buffer:
+                yield t
+            buffer.clear()
+        else:
+            yield tok
+    while len(indent_pilha) > 1:
+        indent_pilha.pop()
+        dedent_token = lex.LexToken()
+        dedent_token.type = 'DEDENT'
+        dedent_token.value = 0
+        dedent_token.lineno = lexer.lineno
+        dedent_token.lexpos = lexer.lexpos
+        yield dedent_token
 
 t_ignore = ' \t\r'
 
@@ -153,19 +176,10 @@ def t_error(t):
     print(f"Caractere ilegal: '{t.value[0]}' na linha {t.lineno}")
     t.lexer.skip(1)
 
-def main():
-    f = open("input1.nim", "r")
-    lexer = lex.lex(debug=1)
-    lexer.input(f.read())
-    print('\n\n# lexer output:')
-    for tok in lexer:
-        print('type:', tok.type, ', value:', tok.value)
-
-#[if __name__ == "__main__":main()]#
-
-lexer = lex.lex()
-entrada = "0x1f 0b1011 0o755 let cad = 5\nvar a: int\nvar x: 6.02e23\nif cad == 0:\n   a = 3 mod 5 \n else:\n  x = 5.56 + 123.4\necho a\necho x\n"
-lexer.input(entrada)
-
-for tok in lexer:
-  print(tok.type, tok.value, tok.lineno, tok.lexpos)
+if __name__ == "__main__":
+    with open("input.nim", "r") as f:
+        entrada = f.read()
+    lexer = lex.lex()
+    lexer.input(entrada)
+    for tok in lexer_tokens(lexer):
+        print(tok.type, tok.value, tok.lineno, tok.lexpos)
