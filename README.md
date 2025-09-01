@@ -2,7 +2,7 @@
 
 Projeto desenvolvido na disciplina **Linguagens Formais e Teoria da Computação (LFT)**, ministrada pelo professor **André Luiz Menezes**. Este trabalho tem como objetivo o **aprendizado e prática de conceitos relacionados a compiladores**, explorando desde a análise de linguagens até a implementação prática em **Nim**.
 </br> </br>
- ![](https://geps.dev/progress/35?dangerColor=800000&warningColor=ff9900&successColor=006600)
+ ![](https://geps.dev/progress/40?dangerColor=800000&warningColor=ff9900&successColor=006600)
 
 ## 👥 Integrantes
 
