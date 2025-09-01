@@ -84,7 +84,7 @@ Em Nim, existem dois tipos principais de loops de repetição: `while` e `for`.
 - `WHILE`: 
 Repete um bloco de código enquanto a condição for verdadeira. É ideal quando você não sabe exatamente quantas vezes o loop vai rodar.
 
-- `WHILE`: 
+- `FOR`: 
 Repete um bloco de código para cada elemento de uma sequência (como um range de números ou elementos de uma lista).
 
 ---
@@ -201,3 +201,4 @@ Nim também acusa erro ao encontrar identificadores inválidos, números malform
 
 
 Espaços em branco, tabulações e quebras de linha são geralmente ignorados, exceto quando usados para definir blocos de código (indentação é significativa, como em Python).
+
