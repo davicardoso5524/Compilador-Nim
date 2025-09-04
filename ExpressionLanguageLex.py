@@ -117,8 +117,14 @@ def t_NEWLINE(t):
     r'\n+'
     t.lexer.lineno += t.value.count('\n')
     t.type = 'NEWLINE'
-    t.value = None
     return t
+
+# nova regra para espaços e tabs que não devem virar tokens
+def t_WS(t):
+    r'[ \t]+'
+    pass
+
+t_ignore = '\r'
 
 def lexer_tokens(lexer):
     buffer = []
@@ -136,6 +142,9 @@ def lexer_tokens(lexer):
                     espacos += 4
                 else:
                     break
+                if espacos == 0 and cont_linha.startswith('\n'):
+                    continue
+                
             lexer.lexpos += espacos
 
             buffer.append(tok)
@@ -170,7 +179,6 @@ def lexer_tokens(lexer):
         dedent_token.lexpos = lexer.lexpos
         yield dedent_token
 
-t_ignore = ' \t\r'
 
 def t_error(t):
     print(f"Caractere ilegal: '{t.value[0]}' na linha {t.lineno}")
