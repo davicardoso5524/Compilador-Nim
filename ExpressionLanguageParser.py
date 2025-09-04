@@ -13,12 +13,13 @@ def p_program(p):
     p[0] = p[1]
 
 def p_stm_list_single(p):
-    'stm_list : stm'
-    p[0] = SingleProgram(p[1])
+    '''stm_list : stm'''
+    p[0] = [p[1]]
 
 def p_stm_list_multiple(p):
-    'stm_list : stm_list stm'
-    p[0] = CompoundProgram(p[1], p[2])
+    '''stm_list : stm_list stm'''
+    p[0] = p[1] + [p[2]]
+
 
 def p_stm_var(p):
     '''stm : VAR ID end
@@ -44,13 +45,13 @@ def p_stm_if(p):
            | IF exp DOISPONTOS NEWLINE INDENT stms DEDENT else_stm
            | IF exp DOISPONTOS NEWLINE INDENT stms DEDENT elif_list else_stm'''
     if len(p) == 7:
-        p[0] = IfStm(p[2], p[5])
+        p[0] = IfStm(p[2], p[6])
     elif len(p) == 8 and isinstance(p[7], list):
-        p[0] = IfStm(p[2], p[5], p[7])
+        p[0] = IfStm(p[2], p[6], p[7])
     elif len(p) == 8:
-        p[0] = IfStm(p[2], p[5], None, p[7])
+        p[0] = IfStm(p[2], p[6], None, p[7])
     elif len(p) == 9:
-        p[0] = IfStm(p[2], p[5], p[7], p[8])
+        p[0] = IfStm(p[2], p[6], p[7], p[8])
 
 def p_elif_list(p):
     '''elif_list : ELIF exp DOISPONTOS NEWLINE INDENT stms DEDENT
